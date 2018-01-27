@@ -19,18 +19,24 @@ class ShopsController < ApplicationController
       end
     end
 
-      data = {
-        name: nearest_shop.name,
-        distance: least_distance,
-        unit: Geokit::default_units,
-        address: nearest_shop.address,
-        cordinates: {
-          latitude: nearest_shop.lat,
-          longitude: nearest_shop.lon
-        },
-        medicine: user_medicine,
-        medicines: nearest_shop.medicines.all
-      }
+    data = {
+      name: nearest_shop.name,
+      distance: least_distance,
+      unit: Geokit::default_units,
+      address: nearest_shop.address,
+      alternate: [
+        'Medicine31',
+        'Medicine24',
+        'Medicine11',
+        'Medicine43'
+      ],
+      cordinates: {
+        latitude: nearest_shop.lat,
+        longitude: nearest_shop.lon
+      },
+      medicine: user_medicine,
+      medicines: nearest_shop.medicines.all
+    }
       render :json => data
   end
 
