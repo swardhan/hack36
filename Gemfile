@@ -16,6 +16,7 @@ end
 gem 'puma', '~> 3.7'
 gem 'faker'
 gem 'geokit'
+gem 'random-location'
 
 group :development, :test do
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
