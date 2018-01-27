@@ -16,38 +16,30 @@ class ShopsController < ApplicationController
       if(current_distance < least_distance)
         least_distance = current_distance
         nearest_shop = shop
-        nearest_shop[:distance] = least_distance
       end
     end
 
     all_shops = []
     required_shops.each_with_index do |shop, index|
-      shop[:distance] = calculate(user_latitude, user_longitude, shop.lon, shop.lat)
-      all_shops.push(shop)
+      shop_json = shop.as_json
+      shop_json["distance"] = calculate(user_latitude, user_longitude, shop.lon, shop.lat)
+      all_shops.push(shop_json)
     end
 
     all_shops.sort_by! do |item|
-      item[:distance]
+      item["distance"]
     end
 
     data = {
-      name: nearest_shop.name,
-      distance: nearest_shop.distance,
+      shops: all_shops,
       unit: Geokit::default_units,
-      address: nearest_shop.address,
       alternate: [
         'Medicine31',
         'Medicine24',
         'Medicine11',
         'Medicine43'
       ],
-      cordinates: {
-        latitude: nearest_shop.lat,
-        longitude: nearest_shop.lon
-      },
-      all_shops: all_shops.all
       medicine: user_medicine,
-      medicines_at_shop: nearest_shop.medicines.all,
       available_shops: required_shops.all
     }
       render :json => data
