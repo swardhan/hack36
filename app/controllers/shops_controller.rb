@@ -53,11 +53,9 @@ class ShopsController < ApplicationController
     current_distance = 0
     nearest_shop = Shop.new
     shops.each_with_index do |shop, index|
-      puts 1
       current_distance = calculate(user_latitude, user_longitude, shop.lon, shop.lat)
       if(current_distance < least_distance)
         least_distance = current_distance
-        puts least_distance
         nearest_shop = shop
       end
     end
